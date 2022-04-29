@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1651099076 source:g:\code\battleships\main.cpp
+	<iostream>
+	<unistd.h>
+

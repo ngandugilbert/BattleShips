@@ -3,123 +3,52 @@
 //Date: 27/04/2022
 #include<iostream>
 #include<unistd.h>
+
+#include<time.h>
+#include"main.h"
 using namespace std;
 
-void MainMenu(),Header(),delay(int),loading(int),GameOver(),Boom();
-
-
-class Player {
-    string Name;
-    int Lives;
-public:
-    Player()
-    {
-        Lives=4;
-        Name="Captain";
-    }
-    //get lives
-    int getLives()
-    {
-        return Lives;
-    }
-    void ReduceLives()
-    {
-        Lives--;
-    }
-    void setName(string Name)
-    {
-        Player::Name=Name;
-    }
-    string getName()
-    {
-        return Name;
-    }
-    void Start();
-    void Intro();
-
-};
-
-class Ships {
-    int NumberOfShips;
-    int AvailableShips;
-    int Latitude;
-    int Longitude;
-    int Position[7][5] {
-        {
-            0,1,0,0,0
-        },
-        {
-            0,0,1,0,0
-        },
-        {
-            0,0,1,0,0
-        },
-        {
-            1,0,0,1,0
-        },
-        {
-            0,0,1,0,0
-        },
-        {
-            1,0,0,0,1
-        },
-        {
-            0,1,0,1,0
-        }
-    };
-public:
-    Ships()
-    {
-        NumberOfShips=4;
-        AvailableShips=10;
-        Latitude=0;
-        Longitude=0;
-    }
-    int getNumberOfShips()
-    {
-        return NumberOfShips;
-    }
-    int getAvailableShips()
-    {
-        return AvailableShips;
-    }
-    void setLatitude(int Latitude)
-    {
-        Ships::Latitude=Latitude;
-    }
-    int getLatitude()
-    {
-        return Latitude;
-    }
-    void setLongitude(int Longitude)
-    {
-        Ships::Longitude=Longitude;
-    }
-    int getLongitude()
-    {
-        return Longitude;
-    }
-    bool Validate(int, int);
-    bool Target();
-
-};
+void MainMenu(),Header(),delay(int),loading(int),GameOver(),Boom(), Gen1();
 
 Player player1;
 Ships shoot;
+
+
 int main()
 {
     MainMenu();
+    //Gen1();
 
     return 0;
 }
+/*
+void Gen1()
+{
+    srand(time(NULL));
 
+     for(int col = 0; col<7; col++)
+        {
+            for(int row = 0; row<4; row++)
+            {
+                int cod = rand()%2;
+                cout<<cod;
+                if(cod==1)
+                {
+                    //AvailableShips += cod;
+                    //cout<<cod;
+                }
+            }
+        }
+}
+*/
 void MainMenu()
 {
     int choice=0;
     cout<<"Welcome to BattleShips\n\n";
     cout<<"1. Start\n2. Leader Board\n3. Help\n4. Exit\nChoice: ";
     cin>>choice;
-    switch(choice) {
+    switch(choice)
+    {
     case 1:
         player1.Intro();
         break;
@@ -157,7 +86,8 @@ void Player::Start()
 {
 
     int userLati, userLongi;
-    do {
+    do
+    {
         system("cls");
         Header();
         cout<<"POP: Aaay "<<player1.getName()<<" where's the enemy?"<<endl;
@@ -166,15 +96,18 @@ void Player::Start()
         cin>>userLati;
         cout<<"Longitude: ";
         cin>>userLongi;
-        if(shoot.Validate(userLati, userLongi)) {
+        if(shoot.Validate(userLati, userLongi))
+        {
             cout<<"\nLocating target ship";
             loading(5);
-            if(shoot.Target()) {
+            if(shoot.Target())
+            {
                 //shot
                 Boom();
                 cout<<"\n"<<player1.getName()<<": Got you!"<<endl;
                 delay(2);
-                if(shoot.getAvailableShips()==0 && player1.getLives()>0) {
+                if(shoot.getAvailableShips()==0 && player1.getLives()>0)
+                {
                     //You win
                     system("cls");
                     Header();
@@ -184,17 +117,20 @@ void Player::Start()
                     cin>>choice;
                 }
             }
-            else {
+            else
+            {
                 //miss
                 cout<<"\nEnemy: Is that all you got?! Come! you are not even trying.\n"<<endl;
                 delay(2);
                 player1.ReduceLives();
-                if(player1.getLives()==0 && shoot.getAvailableShips() != 0) {
+                if(player1.getLives()==0 && shoot.getAvailableShips() != 0)
+                {
                     GameOver();
                 }
             }
         }
-        else {
+        else
+        {
             //error message
             cout<<"POP: Your coordinates were invalid "<<player1.getName()<<endl;
             delay(2);
@@ -204,7 +140,8 @@ void Player::Start()
 }
 bool Ships::Validate(int row, int col)
 {
-    if(row>=0 && row<7 && col>=0 && col<5) {
+    if(row>=0 && row<7 && col>=0 && col<5)
+    {
         setLatitude(row);
         setLongitude(col);
         return true;
@@ -214,7 +151,8 @@ bool Ships::Validate(int row, int col)
 }
 bool Ships::Target()
 {
-    if(Position[Latitude][Longitude]==1) {
+    if(Position[Latitude][Longitude]==1)
+    {
         AvailableShips--;
         Position[Latitude][Longitude]=0;
         return true;
@@ -226,7 +164,7 @@ bool Ships::Target()
 void Header()
 {
     cout<<"____________________________________________________________________________________"<<endl;
-    cout<<"BattleShips"<<" | Player Name: "<<player1.getName()<<" | Lives: "<<player1.getLives()<<" | Enemy ship(s): "<<shoot.getAvailableShips()<<endl;
+    cout<<"BattleShips"<<" | Player Name: "<<player1.getName()<<" | Lives: "<<player1.getLives()<<" | Enemy ship(s): "<<shoot.getAvailableShips()<<" | Level: "<<shoot.getLevel()<<endl;
     cout<<"____________________________________________________________________________________\n"<<endl;
 
 
@@ -238,7 +176,8 @@ void delay(int time)
 }
 void loading(int time)
 {
-    for(int i=0; i<=time; i++) {
+    for(int i=0; i<=time; i++)
+    {
         cout<<".";
         delay(1);
     }
@@ -249,7 +188,8 @@ void GameOver()
     int choice;
     Header();
     char Lost[]= {'G','A','M','E','O','V','E','R','!'};
-    for(int i=0; i<9; i++) {
+    for(int i=0; i<9; i++)
+    {
         cout<<Lost[i]<<"-";
         delay(1);
     }
@@ -261,9 +201,12 @@ void Boom()
     system("cls");
     Header();
     char boom[8]= {'B', 'O','O','O','O','O','M','!'};
-    for(int i=0; i<8; i++) {
+    for(int i=0; i<8; i++)
+    {
         cout<<boom[i]<<"-";
         delay(1);
     }
 }
+
+
 

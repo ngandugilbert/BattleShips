@@ -17,30 +17,11 @@ Ships shoot;
 int main()
 {
     MainMenu();
-    //Gen1();
+   
 
     return 0;
 }
-/*
-void Gen1()
-{
-    srand(time(NULL));
 
-     for(int col = 0; col<7; col++)
-        {
-            for(int row = 0; row<4; row++)
-            {
-                int cod = rand()%2;
-                cout<<cod;
-                if(cod==1)
-                {
-                    //AvailableShips += cod;
-                    //cout<<cod;
-                }
-            }
-        }
-}
-*/
 void MainMenu()
 {
     int choice=0;

@@ -82,7 +82,7 @@ public:
     Ships()
     {
         NumberOfShips=4;
-        //AvailableShips=10;
+        AvailableShips=0;
         Latitude=0;
         Longitude=0;
 
@@ -133,16 +133,17 @@ public:
 
 int Ships::addShips()
 {
+    int created = 0;
     for(int col = 0; col<7; col++)
     {
         for(int row = 0; row<4; row++)
         {
             int cod = Gen();
 
-            if(AvailableShips<10)
+            if(created<10)
             {
                 //keep track of created ships
-                AvailableShips +=cod;
+                created +=cod;
                 Position[col][row] = cod;
             }
             else
@@ -154,6 +155,7 @@ int Ships::addShips()
         }
     }
 
+    AvailableShips = created;
     return AvailableShips;
 }
 
